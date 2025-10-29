@@ -163,6 +163,33 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// reset-password
+app.post("/reset-password", async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  if (!email || !newPassword) {
+    return res.status(400).send("กรุณากรอกอีเมลและรหัสผ่านใหม่");
+  }
+
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    if (result.rows.length === 0) {
+      return res.status(404).send("ไม่พบบัญชีนี้");
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+
+    await pool.query(
+      "UPDATE users SET password = $1 WHERE email = $2",
+      [hashed, email]
+    );
+
+    res.send("รีเซ็ตรหัสผ่านสำเร็จแล้ว");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("เกิดข้อผิดพลาดในการรีเซ็ตรหัสผ่าน");
+  }
+}); 
 
 // API คืนข้อมูลผู้ใช้ที่ login อยู่
 app.get("/api/user", (req, res) => {
@@ -263,7 +290,7 @@ app.get("/Manage.html", requireAdmin, async (req, res) => {
 
     } catch (err) {
         console.error("Error rendering Manage page:", err);
-        res.redirect("/Dash.html"); // หรือจัดการ Error ตามเหมาะสม
+        res.redirect("/Dash.html");
     }
 });
 

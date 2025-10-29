@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รีเซ็ตรหัสผ่าน</title>
+  <link rel="stylesheet" href="style2.css">
+  <link rel="icon" type="image/png" href="photo/dumbells.png">
+</head>
+<body>
+  <div class="container">
+    <h2>รีเซ็ตรหัสผ่าน</h2>
+    <form id="resetForm">
+      <label>อีเมล:</label>
+      <input type="email" name="email" required placeholder="กรอกอีเมลของคุณ">
+
+      <label>รหัสผ่านใหม่:</label>
+      <input type="password" name="newPassword" required placeholder="รหัสผ่านใหม่">
+
+      <button type="submit">บันทึกรหัสผ่านใหม่</button>
+
+      <div id="message" class="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('resetForm');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault(); // ป้องกัน reload หน้า
+
+      const formData = new FormData(form);
+      const data = {
+        email: formData.get('email'),
+        newPassword: formData.get('newPassword')
+      };
+
+      try {
+        const res = await fetch('/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const text = await res.text();
+
+        messageDiv.style.display = 'block';
+        if(res.ok){
+          messageDiv.className = 'message success';
+          messageDiv.textContent = text;
+
+          setTimeout(() => {
+            window.location.href = '/log_in.html';
+          });
+
+        } else {
+          messageDiv.className = 'message error';
+          messageDiv.textContent = text;
+        }
+
+      } catch (err) {
+        messageDiv.style.display = 'block';
+        messageDiv.className = 'message error';
+        messageDiv.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ';
+      }
+    });
+  </script>
+</body>
+</html>
