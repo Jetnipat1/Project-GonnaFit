@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Promo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+     <header class="main-header navbar navbar-expand-lg">
+        <a class="navbar-brand" href="Home.html">
+            <img src="/photo/dumbells.png" alt="GonnaFit Logo" style="height: 30px;">
+            <span class="sitename">GonnaFit</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" href="Home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="Gym.html">Gym</a></li>
+                <li class="nav-item"><a class="nav-link" href="Classes.html">Class</a></li>
+                <li class="nav-item"><a class="nav-link" href="Membership.html">Membership</a></li>
+                <li class="nav-item"><a class="nav-link" href="Promotion.html">Promotion</a></li>
+            </ul>
+
+            <div class="buttons d-flex" id="user-buttons">
+                <a class="btn btn-success me-2" href="/sign_in.html">sign up</a>
+                <a class="btn btn-outline-light" href="/log_in.html">log in</a>
+            </div>
+        </div>
+    </header>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const userButtons = document.getElementById("user-buttons");
+        const navMenu = document.querySelector(".navbar-nav");
+        const signupButtons = document.querySelectorAll('a[href="Payment.html"]');
+
+        try {
+          const userRes = await fetch("/api/user", { credentials: "include" });
+          if (!userRes.ok) throw new Error("ยังไม่ login");
+          const user = await userRes.json();
+
+          userButtons.innerHTML = `
+            <span class="navbar-text me-3 text-white">
+              สวัสดี, ${user.displayname} ${user.surname ?? ""}
+            </span>
+            <a class="btn btn-outline-light" href="/logout">log out</a>
+          `;
+
+          if (user.role === "Admin") {
+            signupButtons.forEach(btn => {
+              btn.classList.add("disabled");
+              btn.style.pointerEvents = "none";
+              btn.style.opacity = "0.6";
+            });
+            navMenu.insertAdjacentHTML("beforeend", `
+              <li class="nav-item"><a class="nav-link" href="/admin/dashboard.html">Setting</a></li>
+            `);
+          }
+
+          if (user.role === "Member") {
+            navMenu.insertAdjacentHTML("beforeend", `
+              <li class="nav-item"><a class="nav-link" href="/Package.html">My Package</a></li>
+            `);
+          }
+
+        } catch (err) {
+          userButtons.innerHTML = `
+            <a class="btn btn-success me-2" href="/sign_in.html">sign up</a>
+            <a class="btn btn-outline-light" href="/log_in.html">log in</a>
+          `;
+          signupButtons.forEach(btn => {
+            btn.classList.add("disabled");
+            btn.style.pointerEvents = "none";
+            btn.style.opacity = "0.6";
+          });
+        }
+      });
+    </script>
+    
+    <div class="page-title dark-background" data-aos="fade" 
+     style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            url('./photo/Borcelle2.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;">
+  
+        <h1 style="font-size: 3rem; font-weight: 800;">Promotion</h1>
+    </div>
+    <section class="class-section">
+      <h2 class="section-title mb-2" style="color: green;">แพ็กเกจฟิตเนสยอดนิยม</h2>
+      <p class="text-muted mb-4">
+        ไม่ว่าคุณจะเป็นผู้เริ่มต้นหรือสายฟิตขั้นสูง เรามีแพ็กเกจที่เหมาะกับทุกเป้าหมาย พร้อมสิทธิประโยชน์พิเศษและการสนับสนุนจากทีมเทรนเนอร์ของเรา
+      </p>
+      <div class="row g-4 justify-content-center">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Beginner</h5>
+              <p class="price">฿299 / วัน</p>
+              <ul class="list-unstyled text-start mt-3">
+                <li>🟢 เข้าใช้ฟิตเนสได้ไม่จำกัดเวลา</li>
+                <li>🟢 ผ้าเช็ดตัวฟรี</li>
+                <li>🟢 น้ำดื่ม 1 ขวดต่อวัน</li>
+                <li>🟢 แนะนำท่าออกกำลังกายสำหรับผู้เริ่มต้น</li>
+                <li>🟢 คำแนะนำเบื้องต้นเกี่ยวกับอุปกรณ์และเครื่องเล่น</li>
+                <li>🟢 เข้าร่วมคลาส Group Fitness บางคลาสได้</li>
+              </ul>
+              <a href="Payment.html" class="btn btn-success mt-3 w-100">สมัครเลย</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-success" style="background-color: #e8f5e9;">
+            <div class="card-body">
+              <h5 class="card-title">
+                Pro
+                <span class="badge bg-success ms-2">ยอดนิยม</span>
+              </h5>
+              <p class="price">฿1,499 / เดือน</p>
+              <ul class="list-unstyled text-start mt-3">
+                <li>🟢 เทรนเนอร์ส่วนตัว 2 ครั้งต่อเดือน</li>
+                <li>🟢 เข้าร่วมทุกคลาส Group Fitness ได้ฟรี</li>
+                <li>🟢 ล็อกเกอร์ส่วนตัว</li>
+                <li>🟢 แนะนำโปรแกรมออกกำลังกายส่วนบุคคล</li>
+                <li>🟢 การติดตามความคืบหน้าผ่าน App ฟิตเนส</li>
+                <li>🟢 ส่วนลดอุปกรณ์และอาหารเสริมในร้าน</li>
+              </ul>
+              <a href="Payment.html" class="btn btn-success mt-3 w-100">สมัครเลย</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Ultimate</h5>
+              <p class="price">฿13,900 / ปี</p>
+              <ul class="list-unstyled text-start mt-3">
+                <li>🟢 เทรนเนอร์ส่วนตัว 10 ครั้งต่อปี</li>
+                <li>🟢 ส่วนลดอาหารเสริม 10%</li>
+                <li>🟢 สิทธิ์เข้า Sauna ฟรี</li>
+                <li>🟢 โปรแกรมโภชนาการส่วนตัว</li>
+                <li>🟢 ตรวจประเมินร่างกาย 2 ครั้งต่อปี</li>
+                <li>🟢 เข้าคลาสพิเศษและกิจกรรม Exclusive ของ GonnaFit</li>
+                <li>🟢 บริการช่วยเหลือส่วนตัวและคำปรึกษาด้านฟิตเนส</li>
+              </ul>
+              <a href="Payment.html" class="btn btn-success mt-3 w-100">สมัครเลย</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <section class="class-section">
+      <h2 class="section-title mb-4">PARTNER PROMOTION</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="KTC" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">FitCard+</h5>
+            <p class="card-text">สมัครแพ็กเกจรายเดือน GonnaFit วันนี้
+            รับส่วนลดทันที 200 บาท เมื่อชำระผ่านบัตร FitCard+
+            สิทธิ์เฉพาะสมาชิกใหม่ หรือผู้ที่ต่ออายุภายใน 30 วัน
+            พร้อมรับของสมนาคุณพิเศษในเดือนเปิดตัว</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="Partner2" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">ActivePay</h5>
+            <p class="card-text">
+              ลูกค้า ActivePay รับส่วนลดค่าบริการรายเดือน 200 บาท
+              เมื่อสมัครแพ็กเกจใดก็ได้ที่ร่วมรายการ
+              รับสิทธิ์เพิ่มอีก 1 เดือนฟรี หากสมัครรายปี
+              โปรโมชั่นนี้ใช้ได้ถึงสิ้นเดือนเท่านั้น
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="Partner3" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">HealthOne Insurance</h5>
+            <p class="card-text">
+              มอบสิทธิ์พิเศษสำหรับผู้ถือกรมธรรม์ HealthOne
+              รับส่วนลด 200 บาท สำหรับแพ็กเกจออกกำลังกายทุกประเภท
+              ลูกค้า 1 ท่านรับสิทธิ์ได้เพียง 1 ครั้ง
+              และสามารถโอนสิทธิ์ให้บุคคลในครอบครัวได้ 1 คน
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="Partner4" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">Breeze Café & Fitness</h5>
+            <p class="card-text">
+              เพียงแสดงใบเสร็จจาก Breeze Café
+              รับส่วนลดทันที 200 บาท สำหรับสมัครสมาชิกใหม่
+              พร้อมรับเครื่องดื่มฟรี 1 แก้วเมื่อเข้าคลาสครั้งแรก
+              สิทธิ์ใช้ได้เฉพาะวันที่ระบุในใบเสร็จเท่านั้น
+            </p>
+          </div>
+        </div>
+
+        <!-- Promotion 5 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="Partner5" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">WellPay Rewards</h5>
+            <p class="card-text">
+              สมาชิก WellPay ที่มียอดใช้จ่ายครบ 5,000 บาทขึ้นไป
+              รับส่วนลดรายเดือน 200 บาท เมื่อสมัครแพ็กเกจใดก็ได้
+              และรับคะแนนสะสมเพิ่ม 2 เท่าทุกการใช้จ่ายผ่านแอป
+              สิทธิ์นี้ใช้ได้ถึงวันที่ 31 ธันวาคมนี้เท่านั้น
+            </p>
+          </div>
+        </div>
+
+        <!-- Promotion 6 -->
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm p-3">
+            <img src="photo/4.png" class="card-img-top mb-3" alt="Partner6" style="max-height: 120px; object-fit: contain;">
+            <h5 class="card-title">ZenBalance App</h5>
+            <p class="card-text">
+              ผู้ใช้แอป ZenBalance รับส่วนลดค่าบริการรายเดือน 200 บาท
+              เมื่อสมัครแพ็กเกจ GonnaFit ผ่านช่องทางออนไลน์
+              รับคลาสโยคะฟรี 1 ครั้ง สำหรับผู้สมัครใหม่
+              โปรโมชั่นมีจำนวนจำกัดต่อเดือน
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer id="footer" class="footer position-relative dark-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">GonnaFit</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>Rajamangala University of Technology Krungthep</p>
+            <p>Bangkok, 10120</p>
+            <p class="mt-3"><strong>โทรศัพท์:</strong> <span>+66 XX XXXX XXX</span></p>
+            <p><strong>อีเมล:</strong> <span>66XXXXXXXXXX@mail.rmutk.ac.th</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>ลิงก์ที่เป็นประโยชน์</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="Home.html">หน้าหลัก</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Category.html">ร้านค้า</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Promotion.html">โปรโมชั่น</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Gym.html">ยิม</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="contact.html">ติดต่อเรา</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>หมวดหมู่ข้อมูล</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://hpc11.anamai.moph.go.th/th/sa-suk-11/200024?utm_source=chatgpt.com">เทคนิคการออกกำลังกาย</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://hpc11.anamai.moph.go.th/th/sa-suk-11/200024?utm_source=chatgpt.com">โภชนาการและอาหาร</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://pt.mahidol.ac.th/ptcenter/knowledge-article/%E0%B8%81%E0%B8%B4%E0%B8%88%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A2-physical-activity-%E0%B8%AA%E0%B8%B3%E0%B8%84%E0%B8%B1%E0%B8%8D/?utm_source=chatgpt.com">กายวิภาคกล้ามเนื้อ</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://www.thaihealth.or.th/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%B0%E0%B8%99%E0%B8%B3-%E0%B9%83%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%AD%E0%B8%81%E0%B8%81%E0%B8%B3%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E">ข้อควรระวังในการออกกำลังกาย</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://www.thaihealth.or.th/%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B9%88">เครื่องมือคำนวณแคล</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>ติดตามเรา</h4>
+          <p>ติดตามข่าวสารและเรื่องราวน่ารักของสุนัขจากเราได้ที่ช่องทางโซเชียลมีเดีย</p>
+          <div class="social-links d-flex gap-3 mt-2">
+            <a href="https://x.com/">
+              <img src="/photo/twitter.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.facebook.com/" >
+              <img src="/photo/facebook.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.instagram.com/">
+              <img src="/photo/instagram.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.youtube.com/">
+              <img src="/photo/youtube.png" alt="Twitter" width="40" height="40">
+            </a>
+          </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>ลิขสิทธิ์</span> <strong class="px-1 sitename">GonnaFit</strong> <span>สงวนลิขสิทธิ์</span></p>
+      <div class="credits">
+        Designed by <a href="https://youtu.be/L8XbI9aJOXk" target="_blank">Jetnipat Pachayanon</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <header class="main-header navbar navbar-expand-lg">
+        <a class="navbar-brand" href="Home.html">
+            <img src="/photo/dumbells.png" alt="GonnaFit Logo" style="height: 30px;">
+            <span class="sitename">GonnaFit</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" href="Home.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="Gym.html">Gym</a></li>
+                <li class="nav-item"><a class="nav-link" href="Classes.html">Class</a></li>
+                <li class="nav-item"><a class="nav-link" href="Membership.html">Membership</a></li>
+                <li class="nav-item"><a class="nav-link" href="Promotion.html">Promotion</a></li>
+            </ul>
+
+            <div class="buttons d-flex" id="user-buttons">
+                <a class="btn btn-success me-2" href="/sign_in.html">sign up</a>
+                <a class="btn btn-outline-light" href="/log_in.html">log in</a>
+            </div>
+        </div>
+    </header>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+        const userButtons = document.getElementById("user-buttons");
+        const navMenu = document.querySelector(".navbar-nav");
+
+        try {
+            // ดึงข้อมูลผู้ใช้
+            const userRes = await fetch("/api/user", { credentials: "include" });
+            if (!userRes.ok) throw new Error("ยังไม่ login");
+            const user = await userRes.json();
+
+            // แสดงชื่อ + ปุ่ม logout
+            userButtons.innerHTML = `
+            <span class="navbar-text me-3 text-white">
+                สวัสดี, ${user.displayname} ${user.surname ?? ""}
+            </span>
+            <a class="btn btn-outline-light" href="/logout">log out</a>
+            `;
+
+            // ถ้า role เป็น Admin → แสดง Setting
+            if (user.role === "Admin") {
+            navMenu.insertAdjacentHTML("beforeend", `
+                <li class="nav-item"><a class="nav-link" href="/admin/dashboard.html">Setting</a></li>
+            `);
+            }
+
+            // ถ้า role เป็น Member → แสดง My Member
+            if (user.role === "Member") {
+            navMenu.insertAdjacentHTML("beforeend", `
+                <li class="nav-item"><a class="nav-link" href="/Package.html">My Package</a></li>
+            `);
+            }
+
+        } catch (err) {
+            userButtons.innerHTML = `
+            <a class="btn btn-success me-2" href="/sign_in.html">sign up</a>
+            <a class="btn btn-outline-light" href="/log_in.html">log in</a>
+            `;
+        }
+        });
+    </script>
+
+    <div class="page-title dark-background" data-aos="fade" 
+     style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            url('./photo/Borcelle.png');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;">
+  
+        <h1 style="font-size: 3rem; font-weight: 800;">MEMBERSHIPS</h1>
+
+    </div>
+
+
+    <section class="features">
+        <h2 class="text-center">สิทธิประโยชน์สมาชิก GonnaFit</h2>
+        
+        <div class="features-box">
+            
+            <div class="feature">
+                <i class="fas fa-users"></i>
+                <h3>บรรยากาศเป็นกันเอง</h3>
+                <p>ชุมชนผู้รักสุขภาพ ปลอดการตัดสิน</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>ยืดหยุ่นตามใจคุณ</h3>
+                <p>จัดตารางออกกำลังกายเองได้ที่</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-handshake-slash"></i> 
+                <h3 >ไม่มีสัญญาผูกมัด</h3>
+                <p>เลือกแผนรายเดือนได้โดยไม่มีค่าธรรมเนียมยกเลิก</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-laptop-code"></i> 
+                <h3 >ทันสมัยเทคโนโลยี</h3>
+                <p>อุปกรณ์ทันสมัย พร้อมแอปจัดการสมาชิกง่าย</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-dumbbell"></i> 
+                <h3>เทรนเนอร์มืออาชีพ</h3>
+                <p>คำแนะนำจากผู้เชี่ยวชาญเพื่อผลลัพธ์ที่ดีที่สุด</p>
+            </div>
+
+            <div class="feature">
+                <i class="fas fa-heartbeat"></i>
+                <h3>สุขภาพที่คุณวางใจ</h3>
+                <p>เราดูแลสมาชิกด้วยมาตรฐานความปลอดภัยสูงสุด</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="faq">
+        <h2 class="text-left mb-4">คำถามที่พบบ่อย</h2>
+        <details open>
+            <summary>1. มีคลาสออกกำลังกายหรือไม่?</summary>
+            <p>เรามีคลาสให้บริการทุกวัน ตรวจสอบตารางได้ที่ GYM หรือแอปของเรา</p>
+        </details>
+
+        <details>
+            <summary>2. ต้องเสียค่าใช้จ่ายเพิ่มหรือไม่?</summary>
+            <p>คลาสและอุปกรณ์มาตรฐาน รวมอยู่ในค่าสมาชิก ไม่มีค่าใช้จ่ายเพิ่มเติม</p>
+        </details>
+
+        <details>
+            <summary>3. บัตรสมาชิกคืออะไร?</summary>
+            <p>สมาชิกจะได้รับบัตรเพื่อเข้าใช้ GYM 24 ชั่วโมง หากบัตรหาย/ชำรุด มีค่าธรรมเนียมออกใหม่ 600 บาท</p>
+        </details>
+
+        <details>
+            <summary>4. สามารถหยุดพักสมาชิกได้หรือไม่?</summary>
+            <ul>
+                <li>แจ้งเจ้าหน้าที่ล่วงหน้า 10 วันก่อนถึงวันตัดรอบบิล</li>
+                <li>หยุดพักได้สูงสุด 2 ครั้ง/ปี ครั้งละ 1 รอบบิล หากมากกว่า 2 ครั้ง มีค่าบริการ 450 บาท/รอบ</li>
+            </ul>
+        </details>
+
+        <details>
+            <summary>5. สามารถเข้าใช้ GYM สาขาอื่นได้ทันทีหรือไม่?</summary>
+            <p>สามารถเข้าใช้บริการสาขาอื่นได้เมื่อสถานะสมาชิกเริ่มต้นเรียบร้อยแล้ว</p>
+        </details>
+
+        <details>
+            <summary>6. ต้องจองผู้ฝึกสอนส่วนตัวหรือไม่?</summary>
+            <p>ถ้าต้องการผู้ฝึกส่วนตัว ติดต่อผู้จัดการ GYM เพื่อจัดหาให้เหมาะสม</p>
+        </details>
+
+        <details>
+            <summary>7. จำเป็นต้องรับการแนะนำ GYM เบื้องต้น?</summary>
+            <p>การแนะนำใช้เวลา 5-10 นาที เพื่อเรียนรู้กฎ การใช้อุปกรณ์ และมาตรการความปลอดภัย</p>
+        </details>
+
+        <details>
+            <summary>8. ช่วงเวลาไหนที่คลับมีสมาชิกมากที่สุด?</summary>
+            <p>บางช่วงอาจคับคั่งเนื่องจากเปิด 24 ชั่วโมง หากต้องการหลีกเลี่ยง ปรึกษาผู้จัดการ GYM</p>
+        </details>
+
+        <details>
+            <summary>9. สอบถามเกี่ยวกับสมาชิกได้อย่างไร?</summary>
+            <p>ติดต่อผู้จัดการหรือแอดมิน GYM เพื่อสอบถามรายละเอียดหรือเสนอแนะ</p>
+        </details>
+
+        <details>
+            <summary>10. จะร้องเรียนได้อย่างไร?</summary>
+            <p>ติดต่อผู้จัดการ/แอดมิน GYM หรือกรอกแบบฟอร์มข้อเสนอแนะออนไลน์</p>
+        </details>
+
+        <details>
+            <summary>11. ต้องการยกเลิกสมาชิกทำอย่างไร?</summary>
+            <p>ติดต่อล่วงหน้า 30 วันก่อนวันตัดรอบบิล การยกเลิกมีผลในรอบถัดไป</p>
+        </details>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-wrapper">
+            <div class="cta-text">
+                <h2>จ่ายแบบรายเดือน ไม่มีเงื่อนไขผูกมัด<br>ออกกำลังกายได้ไม่จำกัดเวลา</h2>
+                <a class="cta-button" href="Promotion.html">
+                พบรายละเอียดโปรโมชั่นและข้อเสนอพิเศษ
+                </a>
+            </div>
+            <div class="cta-image">
+                <img src="photo/Borcelle2.png" alt="GonnaFit CTA">
+            </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer id="footer" class="footer position-relative dark-background">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="Home.html" class="d-flex align-items-center">
+            <span class="sitename">GonnaFit</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>Rajamangala University of Technology Krungthep</p>
+            <p>Bangkok, 10120</p>
+            <p class="mt-3"><strong>โทรศัพท์:</strong> <span>+66 XX XXXX XXX</span></p>
+            <p><strong>อีเมล:</strong> <span>66XXXXXXXXXX@mail.rmutk.ac.th</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>ลิงก์ที่เป็นประโยชน์</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="Home.html">หน้าหลัก</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Category.html">ร้านค้า</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Promotion.html">โปรโมชั่น</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="Gym.html">ยิม</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="contact.html">ติดต่อเรา</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>หมวดหมู่ข้อมูล</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://hpc11.anamai.moph.go.th/th/sa-suk-11/200024?utm_source=chatgpt.com">เทคนิคการออกกำลังกาย</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://hpc11.anamai.moph.go.th/th/sa-suk-11/200024?utm_source=chatgpt.com">โภชนาการและอาหาร</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://pt.mahidol.ac.th/ptcenter/knowledge-article/%E0%B8%81%E0%B8%B4%E0%B8%88%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A2-physical-activity-%E0%B8%AA%E0%B8%B3%E0%B8%84%E0%B8%B1%E0%B8%8D/?utm_source=chatgpt.com">กายวิภาคกล้ามเนื้อ</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://www.thaihealth.or.th/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%99%E0%B8%B0%E0%B8%99%E0%B8%B3-%E0%B9%83%E0%B8%99%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%AD%E0%B8%81%E0%B8%81%E0%B8%B3%E0%B8%A5%E0%B8%B1%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%9E%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2%E0%B8%9E">ข้อควรระวังในการออกกำลังกาย</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="https://www.thaihealth.or.th/%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%84%E0%B8%B3%E0%B8%99%E0%B8%A7%E0%B8%93%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B9%88">เครื่องมือคำนวณแคล</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>ติดตามเรา</h4>
+          <p>ติดตามข่าวสารและเรื่องราวน่ารักของสุนัขจากเราได้ที่ช่องทางโซเชียลมีเดีย</p>
+          <div class="social-links d-flex gap-3 mt-2">
+            <a href="https://x.com/">
+              <img src="/photo/twitter.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.facebook.com/" >
+              <img src="/photo/facebook.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.instagram.com/">
+              <img src="/photo/instagram.png" alt="Twitter" width="40" height="40">
+            </a>
+            <a href="https://www.youtube.com/">
+              <img src="/photo/youtube.png" alt="Twitter" width="40" height="40">
+            </a>
+          </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>ลิขสิทธิ์</span> <strong class="px-1 sitename">GonnaFit</strong> <span>สงวนลิขสิทธิ์</span></p>
+      <div class="credits">
+        Designed by <a href="https://youtu.be/L8XbI9aJOXk" target="_blank">Jetnipat Pachayanon</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

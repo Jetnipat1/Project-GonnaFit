@@ -1,0 +1,35 @@
+ตารางที่ 1: payments
+CREATE TABLE payments (
+    id SERIAL PRIMARY KEY,
+    fullname VARCHAR(100),
+    email VARCHAR(100),
+    package VARCHAR(50),
+    card_number VARCHAR(16),
+    expiry_date VARCHAR(10),
+    cvv VARCHAR(3),
+    payment_date TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER REFERENCES users(userid) ON DELETE CASCADE
+);
+
+ตารางที่ 2: users
+CREATE TABLE users (
+    userid SERIAL PRIMARY KEY,
+    displayname VARCHAR(255),
+    surname VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'Member',
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+ระบุ role = 'Admin'
+INSERT INTO users (displayname, surname, email, phone, password, role)
+VALUES (
+    'Admin',
+    'GonnaFit',
+    'admin@example.com',
+    '0123456789',
+    '$2b$12$AFPYBX9WKqe8cLgGUfXt8U42XaaFedAa2Zi66cMQVbYu0AQtXJrC', -- hash ของรหัสผ่าน
+    'Admin'
+);

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: 'Prompt', sans-serif;
+    }
+    .payment-card {
+      max-width: 500px;
+      margin: 80px auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .btn-success {
+      background-color: #28a745;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-card">
+    <h3 class="text-center mb-4 text-success">ชำระเงินสำหรับ FitCard+</h3>
+
+    <form id="paymentForm">
+      <div class="mb-3">
+        <label for="fullname" class="form-label">ชื่อ-นามสกุล</label>
+        <input type="text" class="form-control" id="fullname" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">อีเมล</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="package" class="form-label">แพ็กเกจ</label>
+        <select class="form-select" id="package" required>
+          <option value="">-- เลือกแพ็กเกจ --</option>
+          <option value="FitCard+ 1 เดือน">FitCard+</option>
+          <option value="FitCard+ 3 เดือน">FitCard Pro</option>
+          <option value="FitCard+ 6 เดือน">FitCard Ultimate</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="card" class="form-label">หมายเลขบัตร</label>
+        <input type="text" class="form-control" id="card" maxlength="16" placeholder="0000 0000 0000 0000" required>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="expiry" class="form-label">วันหมดอายุ</label>
+          <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="cvv" class="form-label">CVV</label>
+          <input type="text" class="form-control" id="cvv" maxlength="3" required>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success w-100 py-2 fs-5">ยืนยันการชำระเงิน</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("paymentForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const data = {
+        fullname: document.getElementById("fullname").value,
+        email: document.getElementById("email").value,
+        package: document.getElementById("package").value,
+        card_number: document.getElementById("card").value,
+        expiry_date: document.getElementById("expiry").value,
+        cvv: document.getElementById("cvv").value
+      };
+
+      try {
+        const res = await fetch("/api/payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if (result.success) {
+          alert("✅ ชำระเงินสำเร็จ! ข้อมูลถูกบันทึกลงฐานข้อมูลแล้ว");
+          window.location.href = "/Home.html";
+        } else {
+          alert("❌ " + result.message);
+        }
+      } catch (err) {
+        alert("เกิดข้อผิดพลาด: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

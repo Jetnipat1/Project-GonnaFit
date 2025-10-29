@@ -1,0 +1,147 @@
+/* General Styles */
+body {
+  font-family: 'Prompt', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Header */
+.main-header {
+  background-color: #28a745;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.main-header .nav-link {
+  color: white !important;
+  transition: 0.3s;
+}
+.main-header .navbar-brand .sitename {
+  font-weight: bold;
+  color: white;
+  margin-left: 5px;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  background: url('photo/pexels-willpicturethis-1954524.jpg') center/cover no-repeat;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4); /* overlay ให้ตัวหนังสืออ่านง่าย */
+  z-index: 0;
+}
+.hero h1, .hero p, .hero a {
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+.hero p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+}
+.hero .btn-success {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #28a745, #1fa839);
+  border: none;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+.hero .btn-success:hover {
+  background: linear-gradient(135deg, #1fa839, #28a745);
+  transform: scale(1.05);
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #28a745;
+  text-align: center;
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #28a745;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Class Section / Cards */
+.class-section {
+  background: #ffffff;
+  color: #333;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  margin: 60px auto;
+  max-width: 1200px;
+  transition: 0.3s;
+}
+.class-section:hover {
+  transform: translateY(-5px);
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+.card img {
+  height: 220px;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.card .card-body h5 {
+  font-weight: 700;
+  color: #28a745;
+}
+.card .card-body p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Buttons inside cards */
+.card .btn-success {
+  background: linear-gradient(135deg, #28a745, #1fa839);
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.card .btn-success:hover {
+  background: linear-gradient(135deg, #1fa839, #28a745);
+  transform: scale(1.05);
+}

@@ -1,0 +1,170 @@
+/* ====== Body & Typography ====== */
+body {
+  font-family: 'Prompt', sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 700;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ====== Buttons ====== */
+.btn-success {
+  background: linear-gradient(135deg, #28a745, #45c55a);
+  border: none;
+  color: #fff;
+  padding: 10px 25px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+}
+.btn-success:hover {
+  background: linear-gradient(135deg, #218838, #38a169);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(33,136,56,0.4);
+}
+
+/* ====== Class Section ====== */
+.class-section {
+  background: #ffffff;
+  color: #333;
+  text-align: center;
+  padding: 80px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  margin: 40px auto;
+  max-width: 1200px;
+}
+.section-title {
+  font-weight: 800;
+  color: #28a745;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #28a745;
+  margin: 15px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* ====== Pricing Section ====== */
+.pricing-section .card {
+  border: none;
+  border-radius: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 25px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.pricing-section .card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+.pricing-section .price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #28a745;
+  margin-bottom: 15px;
+}
+.pricing-section ul li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* ====== Partner Promotion (ปรับใหม่) ====== */
+.partner-promotion {
+  text-align: center;
+  padding: 80px 20px;
+  background: #f0fdf4; /* พื้นหลังเขียวอ่อนสดชื่น */
+}
+
+.partner-promotion h2 {
+  color: #28a745;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  position: relative;
+}
+.partner-promotion h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #28a745;
+  margin: 15px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* Card container */
+.partner-promotion .card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+/* Card */
+.partner-promotion .card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 25px 20px;
+  transition: all 0.4s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  position: relative;
+}
+
+/* Card hover */
+.partner-promotion .card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+  border: 2px solid #28a745;
+}
+
+/* Card title */
+.partner-promotion .card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #28a745;
+  margin-bottom: 12px;
+}
+
+/* Card text */
+.partner-promotion .card-text {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* Optional: badge หรือ highlight */
+.partner-promotion .card-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #28a745;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
