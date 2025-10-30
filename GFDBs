@@ -1,0 +1,261 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict QitV54TJ7LPsT5baM5pSWQTdRlUqBbWl9eip5KYBPsZUuu53CBXC6Nr0XkKbHMV
+
+-- Dumped from database version 18.0
+-- Dumped by pg_dump version 18.0
+
+-- Started on 2025-10-30 21:11:46
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 223 (class 1259 OID 24952)
+-- Name: payments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.payments (
+    id integer NOT NULL,
+    fullname character varying(100) NOT NULL,
+    email character varying(100) NOT NULL,
+    package character varying(50) NOT NULL,
+    card_number character varying(16) NOT NULL,
+    expiry_date character varying(10) NOT NULL,
+    cvv character varying(3) NOT NULL,
+    payment_date timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    user_id integer
+);
+
+
+ALTER TABLE public.payments OWNER TO postgres;
+
+--
+-- TOC entry 222 (class 1259 OID 24951)
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.payments_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.payments_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 4936 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
+
+
+--
+-- TOC entry 221 (class 1259 OID 24716)
+-- Name: session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.session (
+    sid character varying NOT NULL,
+    sess json NOT NULL,
+    expire timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE public.session OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 24701)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    userid integer NOT NULL,
+    displayname character varying(255),
+    surname character varying(255),
+    email character varying(255) NOT NULL,
+    phone character varying(20),
+    password character varying(255) NOT NULL,
+    role character varying(50) DEFAULT 'Member'::character varying,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 24700)
+-- Name: users_userid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_userid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_userid_seq OWNER TO postgres;
+
+--
+-- TOC entry 4937 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: users_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_userid_seq OWNED BY public.users.userid;
+
+
+--
+-- TOC entry 4767 (class 2604 OID 24955)
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
+
+
+--
+-- TOC entry 4764 (class 2604 OID 24704)
+-- Name: users userid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN userid SET DEFAULT nextval('public.users_userid_seq'::regclass);
+
+
+--
+-- TOC entry 4930 (class 0 OID 24952)
+-- Dependencies: 223
+-- Data for Name: payments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.payments (id, fullname, email, package, card_number, expiry_date, cvv, payment_date, user_id) FROM stdin;
+1	GomTod Tak	GomTod@gmail.com	FitCard+ 1 เดือน	1111111111111111	1/2	222	2025-10-20 19:22:27.749267	6
+2	Gaana Naaga	Gaana@gmail.com	FitCard+ 1 ปี	2222222222222222	1/3	444	2025-10-22 19:10:31.748864	9
+\.
+
+
+--
+-- TOC entry 4928 (class 0 OID 24716)
+-- Dependencies: 221
+-- Data for Name: session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.session (sid, sess, expire) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4927 (class 0 OID 24701)
+-- Dependencies: 220
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (userid, displayname, surname, email, phone, password, role, created_at) FROM stdin;
+5	Admin	GonnaFit	admin@example.com	0123456789	$2b$12$AFPYBX9WKqe8CLgGUfXt8O4U2XaaFedAa2Zi66cMQVbYu0P/sKIES	Admin	2025-10-14 16:30:26.755508
+8	Hana	Lulu	Hana@gmail.com	0984321234	$2b$10$2NGpDm3gFCAlvURpfbpU5ukPybezEnfNdfcBTnqdqeHjS4zNm6oj2	Member	2025-10-19 18:41:04.503091
+6	GomTod	Tak	GomTod@gmail.com	0984523456	$2b$10$0FKpDYKyQRMDZbgKA9fnge3RbOswwoQI3Pwjz8ETaT11uXA4iBKUK	Member	2025-10-14 16:30:26.755508
+9	Gamma	Naaga	Gamma@gmail.com	0987654322	$2b$10$ovrHy2UuCL6/eQcJoPuUGOZd/y.M0.BnLDxfbxsYhFt1AvNaO156y	Member	2025-10-22 19:09:44.32409
+\.
+
+
+--
+-- TOC entry 4938 (class 0 OID 0)
+-- Dependencies: 222
+-- Name: payments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.payments_id_seq', 9, true);
+
+
+--
+-- TOC entry 4939 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: users_userid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_userid_seq', 12, true);
+
+
+--
+-- TOC entry 4777 (class 2606 OID 24965)
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 4775 (class 2606 OID 24725)
+-- Name: session session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.session
+    ADD CONSTRAINT session_pkey PRIMARY KEY (sid);
+
+
+--
+-- TOC entry 4770 (class 2606 OID 24714)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 4772 (class 2606 OID 24712)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (userid);
+
+
+--
+-- TOC entry 4773 (class 1259 OID 24726)
+-- Name: IDX_session_expire; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "IDX_session_expire" ON public.session USING btree (expire);
+
+
+--
+-- TOC entry 4778 (class 2606 OID 32921)
+-- Name: payments fk_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES public.users(userid);
+
+
+-- Completed on 2025-10-30 21:11:46
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict QitV54TJ7LPsT5baM5pSWQTdRlUqBbWl9eip5KYBPsZUuu53CBXC6Nr0XkKbHMV
+
