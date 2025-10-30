@@ -386,6 +386,39 @@ app.get("/api/admin/members", async (req, res) => {
   }
 });
 
+// ดึงข้อมูลสมาชิก 1 คน
+app.get("/api/admin/member/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("SELECT * FROM users WHERE userid=$1", [id]);
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+// แก้ไขข้อมูลสมาชิก
+app.put("/api/admin/update-member/:id", requireRole("Admin"), async (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) return res.status(400).json({ error: "Invalid id" });
+
+  const { displayname, surname, email, role } = req.body;
+  try {
+    const result = await pool.query(
+    "UPDATE users SET displayname=$1, surname=$2, email=$3, role=$4 WHERE userid=$5",
+    [displayname, surname, email, role, id]
+  );
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Member not found" });
+    }
+    res.json({ success: true, message: "อัปเดตข้อมูลสำเร็จ" });
+  } catch (err) {
+    console.error("Update member error:", err);
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการอัปเดต" });
+  }
+});
+
 // อัปเดต role
 app.put("/api/admin/update-role/:id", async (req, res) => {
   if (!req.session.user || req.session.user.role !== "Admin") {
@@ -403,8 +436,28 @@ app.delete("/api/admin/delete-member/:id", async (req, res) => {
     return res.status(403).json({ error: "forbidden" });
   }
   const { id } = req.params;
-  await pool.query("DELETE FROM users WHERE userid = $1", [id]);
-  res.json({ success: true });
+
+  const client = await pool.connect(); 
+  try {
+    await client.query('BEGIN'); 
+    await client.query("DELETE FROM payments WHERE user_id = $1", [id]); 
+    const deleteUserResult = await client.query("DELETE FROM users WHERE userid = $1", [id]);
+    
+    await client.query('COMMIT'); 
+
+    if (deleteUserResult.rowCount > 0) {
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ success: false, message: "Member not found" });
+    }
+
+  } catch (err) {
+    await client.query('ROLLBACK'); 
+  console.error("Delete member transaction error:", err);
+  res.status(500).json({ success: false, error: "Database transaction failed" }); 
+  } finally {
+    client.release();
+  }
 });
 
 // บันทึกข้อมูลการชำระเงิน
