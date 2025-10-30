@@ -95,7 +95,7 @@
 
         const result = await res.json();
         if (result.success) {
-          alert("✅ ชำระเงินสำเร็จ! ข้อมูลถูกบันทึกลงฐานข้อมูลแล้ว");
+          alert("✅ ชำระเงินสำเร็จ!");
           window.location.href = "/Home.html";
         } else {
           alert("❌ " + result.message);

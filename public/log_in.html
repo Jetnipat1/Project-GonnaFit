@@ -9,22 +9,9 @@
 </head>
 <body>
   <script>
-  function getQueryParam(name){
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-    results = regex.exec(window.location.href);
-    if(!results) return null;
-    if(!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g,' '));
-  }
-
-    const errorMessage = getQueryParam('error');
-    if(errorMessage){
-      alert(errorMessage);
-      const cleanUrl = window.location.protocol+"//"+
-                      window.location.host+
-                      window.location.pathname;
-      history.replaceState(null, '', cleanUrl);
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
     }
   </script>
 
