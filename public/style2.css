@@ -1,97 +1,91 @@
-/* ตั้งค่าพื้นฐาน */
 body {
   font-family: "Prompt", sans-serif;
-  background: linear-gradient(135deg, #797c7c, #058801);
-  height: 100vh;
   margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #1f4037, #28a745);
   display: flex;
   justify-content: center;
   align-items: center;
 }
-/* ---------- กล่องฟอร์ม (เช่น Login / Signup) ---------- */
-.container {
-  background: white;
+
+.container,
+.signup-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
   border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  padding: 40px;
-  width: 320px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  padding: 40px 50px;
+  width: 350px;
   text-align: center;
+  color: white;
 }
 
-/* หัวข้อ */
-h2 {
-  color: #333;
-  margin-bottom: 25px;
+.container h2,
+.signup-box h2 {
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
-/* ช่องกรอก */
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  transition: border 0.3s;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: none;
+  border-bottom: 2px solid #b4b6b4;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: border 0.3s, background 0.3s;
 }
 
 input:focus {
-  border: 1px solid #4ab330;
-  outline: none;
+  border-bottom: 2px solid #4ae54a;
 }
 
-/* ปุ่ม */
 button {
   width: 100%;
-  background: #234622;
-  color: white;
+  background: linear-gradient(90deg, #4ae54a, #2ddf5c);
   border: none;
   padding: 12px;
   border-radius: 8px;
   font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s;
+  color: #fff;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #72c26f;
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #58d868, #3bd55b);
 }
 
-/* ลิงก์สมัครสมาชิก */
 p {
   margin-top: 15px;
+  font-size: 15px;
+  color: #e5e5e5;
 }
 
 a {
-  color: #2575fc;
+  color: #81ff9e;
   text-decoration: none;
+  font-weight: 500;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-/* ลิงก์สมัครสมาชิก */
-p {
-  margin-top: 15px;
-}
-
-a {
-  color: #2575fc;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.btn {
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #058801;
-  color: white;
-  border-radius: 4px;
-  text-decoration: none;
-}
-.btn:hover {
-  background-color: #45a049;
+label {
+  display: block;
+  text-align: left;
+  color: #e5e5e5;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }

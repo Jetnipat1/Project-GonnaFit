@@ -3,21 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up</title>
+  <title>สมัครสมาชิก | GonnaFit</title>
   <link rel="stylesheet" href="style2.css">
   <link rel="icon" type="image/png" href="photo/dumbells.png">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h2>สมัครสมาชิก</h2>
-    <form action="/signup" method="POST">
-      <input type="text" name="username" placeholder="ชื่อ" required>
-      <input type="text" name="surname" placeholder="นามสกุล" required>
-      <input type="email" name="email" placeholder="อีเมล" required>
-      <input type="text" name="phone" placeholder="เบอร์โทร" required>
-      <input type="password" name="password" placeholder="รหัสผ่าน" required>
-      <button type="submit">สมัครสมาชิก</button>
-    </form>
+  <div class="signup-container">
+    <div class="signup-box">
+      <h2>สมัครสมาชิก</h2>
+      <form action="/signup" method="POST">
+        <div class="input-group">
+          <label>ชื่อ</label>
+          <input type="text" name="username" required>
+        </div>
+        <div class="input-group">
+          <label>นามสกุล</label>
+          <input type="text" name="surname" required>
+        </div>
+        <div class="input-group">
+          <label>อีเมล</label>
+          <input type="email" name="email" required>
+        </div>
+        <div class="input-group">
+          <label>เบอร์โทร</label>
+          <input type="text" name="phone" required>
+        </div>
+        <div class="input-group">
+          <label>รหัสผ่าน</label>
+          <input type="password" name="password" required>
+        </div>
+        <button type="submit">สมัครสมาชิก</button>
+      </form>
+      <p>มีบัญชีอยู่แล้ว? <a href="log_in.html">เข้าสู่ระบบ</a></p>
+    </div>
   </div>
 </body>
 </html>

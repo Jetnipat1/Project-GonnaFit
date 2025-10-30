@@ -231,7 +231,7 @@ function requireMember(req, res, next) {
 app.get("/Dash.html", requireAdmin, async (req, res) => {
     try {
         const user = req.user;
-        
+
         // ดึงข้อมูลทั้งหมดจาก API ที่มีอยู่แล้ว (หรือโค้ด Query)
         const [totalRes, newRes, latestRes, weekRes] = await Promise.all([
             pool.query("SELECT COUNT(*) FROM users"),
@@ -489,8 +489,3 @@ app.get("/admin/dashboard.html", requireAdmin, async (req, res) => {
         }
     });
 });
-
-
-
-
-

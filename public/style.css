@@ -17,7 +17,7 @@ body {
 }
 
 .main-header {
-    background: linear-gradient(to right, #000000, #1e8449); /* ใช้สี Gradient เดิมของคุณ */
+    background: linear-gradient(135deg, #1f4037, #28a745);
     padding: 10px 20px;
     /* ล้างสีพื้นหลัง Bootstrap ที่อาจมีผล */
     background-color: transparent !important;
@@ -25,7 +25,7 @@ body {
 
 header.main-header{
   width: 100%;
-  background: linear-gradient(135deg, #156b12, #6d68b69f);
+  background: linear-gradient(135deg, #1f4037, #28a745);
   display: flex;
   align-items: center;
   justify-content: space-between;
