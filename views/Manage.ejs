@@ -117,129 +117,129 @@
   </div>
 
   <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const tableBody = document.getElementById("member-table");
-    const searchInput = document.getElementById("search");
-    const memberModal = new bootstrap.Modal(document.getElementById("memberModal"));
-    const memberForm = document.getElementById("memberForm");
-    const modalTitle = document.getElementById("modalTitle");
+    document.addEventListener("DOMContentLoaded", () => {
+        const tableBody = document.getElementById("member-table");
+        const searchInput = document.getElementById("search");
+        const memberModal = new bootstrap.Modal(document.getElementById("memberModal"));
+        const memberForm = document.getElementById("memberForm");
+        const modalTitle = document.getElementById("modalTitle");
 
-    // โหลดข้อมูลสมาชิก
-    async function loadMembers(keyword = "") {
-        tableBody.innerHTML = '<tr><td colspan="7" class="text-center">กำลังโหลด...</td></tr>';
-        try {
-            const res = await fetch(`/api/admin/members?search=${encodeURIComponent(keyword)}`, { credentials: "include" });
-            const data = await res.json();
+        // โหลดข้อมูลสมาชิก
+        async function loadMembers(keyword = "") {
+            tableBody.innerHTML = '<tr><td colspan="7" class="text-center">กำลังโหลด...</td></tr>';
+            try {
+                const res = await fetch(`/api/admin/members?search=${encodeURIComponent(keyword)}`, { credentials: "include" });
+                const data = await res.json();
 
-            if (!data.length) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center">ไม่พบข้อมูล</td></tr>`;
-                return;
-            }
+                if (!data.length) {
+                    tableBody.innerHTML = `<tr><td colspan="7" class="text-center">ไม่พบข้อมูล</td></tr>`;
+                    return;
+                }
 
-            tableBody.innerHTML = "";
-            data.forEach((m, i) => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td>${i + 1}</td>
-                    <td>${m.displayname}</td>
-                    <td>${m.surname ?? ""}</td>
-                    <td>${m.email}</td>
-                    <td>${m.role}</td>
-                    <td>${new Date(m.created_at).toLocaleDateString()}</td>
-                    <td>
-                      <button class="btn btn-warning btn-sm edit-btn" data-id="${m.id}">แก้ไข</button>
-                      <button class="btn btn-danger btn-sm delete-btn" data-id="${m.id}">ลบ</button>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
-
-            // ปุ่มแก้ไข
-            document.querySelectorAll(".edit-btn").forEach(btn => {
-                btn.addEventListener("click", e => openEditModal(e.target.dataset.id));
-            });
-
-            // ปุ่มลบ
-            document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.addEventListener("click", async e => {
-                    const id = parseInt(e.target.dataset.id, 10);
-                    if (isNaN(id)) return alert("รหัสสมาชิกไม่ถูกต้อง");
-
-                    if (confirm("แน่ใจว่าต้องการลบสมาชิกนี้?")) {
-                        const res = await fetch(`/api/admin/delete-member/${id}`, {
-                            method: "DELETE",
-                            credentials: "include"
-                        });
-                        if (res.ok) {
-                            alert("ลบสำเร็จ");
-                            loadMembers(searchInput.value);
-                        } else alert("ลบไม่สำเร็จ");
-                    }
+                tableBody.innerHTML = "";
+                data.forEach((m, i) => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td>${i + 1}</td>
+                        <td>${m.displayname}</td>
+                        <td>${m.surname ?? ""}</td>
+                        <td>${m.email}</td>
+                        <td>${m.role}</td>
+                        <td>${new Date(m.created_at).toLocaleDateString()}</td>
+                        <td>
+                          <button class="btn btn-warning btn-sm edit-btn" data-id="${m.id}">แก้ไข</button>
+                          <button class="btn btn-danger btn-sm delete-btn" data-id="${m.id}">ลบ</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
                 });
-            });
 
-        } catch (err) {
-            console.error(err);
-            tableBody.innerHTML = `<tr><td colspan="7" class="text-danger text-center">โหลดข้อมูลล้มเหลว</td></tr>`;
-        }
-    }
+                // ปุ่มแก้ไข
+                document.querySelectorAll(".edit-btn").forEach(btn => {
+                    btn.addEventListener("click", e => openEditModal(e.target.dataset.id));
+                });
 
-    // เปิด modal แก้ไข
-    async function openEditModal(id) {
-        const numId = parseInt(id, 10);
-        if (isNaN(numId)) return alert("รหัสสมาชิกไม่ถูกต้อง");
+                // ปุ่มลบ
+                document.querySelectorAll(".delete-btn").forEach(btn => {
+                    btn.addEventListener("click", async e => {
+                        const id = parseInt(e.target.dataset.id, 10);
+                        if (isNaN(id)) return alert("รหัสสมาชิกไม่ถูกต้อง");
 
-        const res = await fetch(`/api/admin/member/${numId}`, { credentials: "include" });
-        const m = await res.json();
+                        if (confirm("แน่ใจว่าต้องการลบสมาชิกนี้?")) {
+                            const res = await fetch(`/api/admin/delete-member/${id}`, {
+                                method: "DELETE",
+                                credentials: "include"
+                            });
+                            if (res.ok) {
+                                alert("ลบสำเร็จ");
+                                loadMembers(searchInput.value);
+                            } else alert("ลบไม่สำเร็จ");
+                        }
+                    });
+                });
 
-        modalTitle.textContent = "แก้ไขข้อมูลสมาชิก";
-        document.getElementById("memberId").value = m.userid;
-        document.getElementById("displayname").value = m.displayname;
-        document.getElementById("surname").value = m.surname ?? "";
-        document.getElementById("email").value = m.email;
-        document.getElementById("role").value = m.role;
-        memberModal.show();
-    }
-
-
-    // บันทึกข้อมูล
-    memberForm.addEventListener("submit", async e => {
-        e.preventDefault();
-
-        const id = parseInt(document.getElementById("memberId").value, 10);
-        if (isNaN(id)) return alert("รหัสสมาชิกไม่ถูกต้อง");
-
-        const payload = {
-            displayname: document.getElementById("displayname").value,
-            surname: document.getElementById("surname").value,
-            email: document.getElementById("email").value,
-            role: document.getElementById("role").value
-        };
-
-        try {
-            const res = await fetch(`/api/admin/update-member/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-                credentials: "include"
-            });
-            if (res.ok) {
-                alert("บันทึกสำเร็จ");
-                memberModal.hide();
-                loadMembers();
-            } else {
-                alert("บันทึกล้มเหลว");
+            } catch (err) {
+                console.error(err);
+                tableBody.innerHTML = `<tr><td colspan="7" class="text-danger text-center">โหลดข้อมูลล้มเหลว</td></tr>`;
             }
-        } catch (err) {
-            console.error(err);
-            alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
         }
-    });
 
-    // โหลดเริ่มต้น
-    loadMembers();
-    searchInput.addEventListener("input", e => loadMembers(e.target.value));
-});
+      // เปิด modal แก้ไข
+      async function openEditModal(id) {
+          const numId = parseInt(id, 10);
+          if (isNaN(numId)) return alert("รหัสสมาชิกไม่ถูกต้อง");
+
+          const res = await fetch(`/api/admin/member/${numId}`, { credentials: "include" });
+          const m = await res.json();
+
+          modalTitle.textContent = "แก้ไขข้อมูลสมาชิก";
+          document.getElementById("memberId").value = m.userid;
+          document.getElementById("displayname").value = m.displayname;
+          document.getElementById("surname").value = m.surname ?? "";
+          document.getElementById("email").value = m.email;
+          document.getElementById("role").value = m.role;
+          memberModal.show();
+      }
+
+
+      // บันทึกข้อมูล
+      memberForm.addEventListener("submit", async e => {
+          e.preventDefault();
+
+          const id = parseInt(document.getElementById("memberId").value, 10);
+          if (isNaN(id)) return alert("รหัสสมาชิกไม่ถูกต้อง");
+
+          const payload = {
+              displayname: document.getElementById("displayname").value,
+              surname: document.getElementById("surname").value,
+              email: document.getElementById("email").value,
+              role: document.getElementById("role").value
+          };
+
+          try {
+              const res = await fetch(`/api/admin/update-member/${id}`, {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(payload),
+                  credentials: "include"
+              });
+              if (res.ok) {
+                  alert("บันทึกสำเร็จ");
+                  memberModal.hide();
+                  loadMembers();
+              } else {
+                  alert("บันทึกล้มเหลว");
+              }
+          } catch (err) {
+              console.error(err);
+              alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+          }
+      });
+
+      // โหลดเริ่มต้น
+      loadMembers();
+      searchInput.addEventListener("input", e => loadMembers(e.target.value));
+  });
   </script>
 </body>
 </html>
