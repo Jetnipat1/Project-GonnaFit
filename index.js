@@ -92,6 +92,10 @@ app.post("/signup", async (req, res) => {
   console.log("Received signup data:", username, surname, email, phone);
 
   try {
+    if (!/^\d{10}$/.test(phone)) {
+      return res.status(400).send("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (10 หลัก)");
+    }
+    
     const checkUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
     if (checkUser.rows.length > 0) {
       console.log("Email already exists:", email); // แสดง log ถ้า email ซ้ำ

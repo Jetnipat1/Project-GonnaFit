@@ -38,5 +38,14 @@
       <p>มีบัญชีอยู่แล้ว? <a href="log_in.html">เข้าสู่ระบบ</a></p>
     </div>
   </div>
+  <script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+      const phone = document.querySelector("input[name='phone']").value.trim();
+      if (!/^0\d{9}$/.test(phone)) {
+        alert("กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง (ต้องขึ้นต้นด้วย 0 และมี 10 หลัก)");
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
